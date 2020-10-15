@@ -14,10 +14,9 @@ public class AuthManager : MonoBehaviour
     void Start()
     {
         auth = FirebaseAuth.DefaultInstance;
-
-        AnonymousSignUp();
     }
 
+    // Email ile Kayıt Olma
     public void SignUp()
     {
         string email = emailForm.text;
@@ -42,6 +41,7 @@ public class AuthManager : MonoBehaviour
         });
     }
 
+    // Anonim Kayıt Olma
     public void AnonymousSignUp()
     {
         auth.SignInAnonymouslyAsync().ContinueWith(task =>
@@ -60,6 +60,36 @@ public class AuthManager : MonoBehaviour
             FirebaseUser newUser = task.Result;
             Debug.LogFormat("Anonim kullanıcı oluşturuldu {0} {1}", newUser.DisplayName, newUser.UserId);
         });
+    }
+
+    // Login Giriş Yapma Fonksiyonu
+    public void DoLogin()
+    {
+        string email = emailForm.text;
+        string password = passwordForm.text;
+
+        if(email != "" && password != "")
+        {
+            auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
+            {
+                if (task.IsCanceled)
+                {
+                    Debug.Log("Canceled");
+                    return;
+                }
+                if (task.IsFaulted)
+                {
+                    Debug.Log("Faulted");
+                    return;
+                }
+
+                FirebaseUser newUser = task.Result;
+                Debug.LogFormat("Giriş Yapıldı! {0} {1}",
+                    newUser.DisplayName,
+                    newUser.UserId
+                    );
+            });
+        }
     }
 
 }
