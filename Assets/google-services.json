@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "296763708487",
+    "firebase_url": "https://unity-firebase-ecb51.firebaseio.com",
+    "project_id": "unity-firebase-ecb51",
+    "storage_bucket": "unity-firebase-ecb51.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:296763708487:android:d66d08801dc48479020d62",
+        "android_client_info": {
+          "package_name": "com.Onur.Firebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "296763708487-38u0mk2qk44mbp7uo3aablt37gmq8657.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlcV9PpWqh1n8xdY4fwGWzdhV7z_DFVwA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "296763708487-38u0mk2qk44mbp7uo3aablt37gmq8657.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
