@@ -92,4 +92,26 @@ public class AuthManager : MonoBehaviour
         }
     }
 
+    // Şifre Sıfırlama İşlemi
+    public void ResetPassword()
+    {
+        string email = emailForm.text;
+
+        auth.SendPasswordResetEmailAsync(email).ContinueWith(task =>
+        {
+            if (task.IsCanceled)
+            {
+                Debug.Log("Canceled");
+                return;
+            }
+            if (task.IsFaulted)
+            {
+                Debug.Log("Faulted");
+                return;
+            }
+
+            Debug.Log("Sıfırlama epostası gönderildi.");
+        });
+    }
+
 }
