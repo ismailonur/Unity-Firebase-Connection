@@ -33,8 +33,11 @@ public class DBManager : MonoBehaviour
                 // SaveData("Onur", 15, true);
                 // UpdateData("-MJktgR-g6aLW_z7cfJB", "İsmail Onur", 8, false);
                 // GetUserList();
+                // DeleteUser("-MJlE6HNMKc0tmzid5Hp");
 
-                //DeleteUser("-MJlE6HNMKc0tmzid5Hp");
+                // Listener ile odayı dinleme
+                string userId = "-MJlG5U-5YZuElbUzqka";
+                usersReference.Child(userId).ValueChanged += GetUserDetails;
             }
             else
             {
@@ -106,5 +109,22 @@ public class DBManager : MonoBehaviour
                 Debug.Log(userId + " kullanıcısı silindi");
             }
         });
+    }
+
+    // Odayı dinleme işlemi
+    void GetUserDetails(object sender, ValueChangedEventArgs args)
+    {
+        if(args.DatabaseError != null)
+        {
+            Debug.LogError(args.DatabaseError.Message);
+            return;
+        }
+
+        // Başarılı sonuç olduktan sonra
+        Debug.Log("Değişiklik algılandı");
+
+        string username = args.Snapshot.Child("username").Value.ToString();
+
+        Debug.Log(username);
     }
 }
