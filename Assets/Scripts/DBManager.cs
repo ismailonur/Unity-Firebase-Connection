@@ -32,8 +32,9 @@ public class DBManager : MonoBehaviour
 
                 // SaveData("Onur", 15, true);
                 // UpdateData("-MJktgR-g6aLW_z7cfJB", "İsmail Onur", 8, false);
+                // GetUserList();
 
-                GetUserList();
+                //DeleteUser("-MJlE6HNMKc0tmzid5Hp");
             }
             else
             {
@@ -87,6 +88,22 @@ public class DBManager : MonoBehaviour
 
                     Debug.Log(_userId + " Kullanıcısının username: " + username);
                 }
+            }
+        });
+    }
+
+    // Database'den veri silme fonksiyonu
+    void DeleteUser(string userId)
+    {
+        usersReference.Child(userId).RemoveValueAsync().ContinueWith(task =>
+        {
+            if (task.IsFaulted)
+            {
+                Debug.LogError("Faulted");
+            }
+            else if (task.IsCompleted)
+            {
+                Debug.Log(userId + " kullanıcısı silindi");
             }
         });
     }
