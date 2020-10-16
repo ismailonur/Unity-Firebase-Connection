@@ -1,0 +1,13 @@
+{
+    "UserID1": {
+        "Username": "Onur",
+        "Level": 99,
+        "LoginStatus": false
+    },
+
+    "UserID2": {
+        "Username": "İsmail",
+        "Level": 1,
+        "LoginStatus": true
+    }
+}
