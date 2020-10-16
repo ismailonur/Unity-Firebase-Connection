@@ -25,30 +25,21 @@ public class DBManager : MonoBehaviour
             var dependencyStatus = task.Result;
             if (dependencyStatus == DependencyStatus.Available)
             {
-                usersReference = FirebaseDatabase.DefaultInstance.RootReference;
+                usersReference = FirebaseDatabase.DefaultInstance.GetReference("Users");
 
                 // Bağlantı kurulduktan sonra gerekli işlemler
                 Debug.Log("DB Bağlantısı Kuruldu.");
 
-                SaveData("Onur enes", 15, true);
-
+                // SaveData("Onur", 15, true);
                 // UpdateData("-MJktgR-g6aLW_z7cfJB", "İsmail Onur", 8, false);
+
+                GetUserList();
             }
             else
             {
                 Debug.LogError(System.String.Format("Hata {0}", dependencyStatus));
             }
         });
-    }
-
-    void UpdateData(string userID, string username, int level, bool loginStatus)
-    {
-        Dictionary<string, object> children = new Dictionary<string, object>();
-        children["username"] = username;
-        children["level"] = level;
-        children["loginStatus"] = loginStatus;
-
-        usersReference.Child(userID).UpdateChildrenAsync(children);
     }
 
     // Yeni kullanıcı eklerken çalışan fonksiyon
@@ -59,8 +50,44 @@ public class DBManager : MonoBehaviour
         // user json'a dönüştürülür.
         string json = JsonUtility.ToJson(user);
 
-        // string userID = usersReference.Push().Key;
+        string userID = usersReference.Push().Key;
 
-        usersReference.Child("Users/"+rnd).SetRawJsonValueAsync(json);
+        usersReference.Child(userID).SetRawJsonValueAsync(json);
+    }
+
+    // Kullanıcı update ederken çalışan fonksiyon
+    void UpdateData(string userID, string username, int level, bool loginStatus)
+    {
+        Dictionary<string, object> children = new Dictionary<string, object>();
+        children["username"] = username;
+        children["level"] = level;
+        children["loginStatus"] = loginStatus;
+
+        usersReference.Child(userID).UpdateChildrenAsync(children);
+    }
+
+    // Database'den veri çekemede kullanılan fonksiyon
+    void GetUserList()
+    {
+        usersReference.GetValueAsync().ContinueWith(task =>
+        {
+            if (task.IsFaulted)
+            {
+                Debug.LogError("Faulted");
+            }
+            else if (task.IsCompleted)
+            {
+                DataSnapshot snapshot = task.Result;
+
+                foreach (DataSnapshot userID in snapshot.Children)
+                {
+                    string _userId = userID.Key;
+
+                    string username = snapshot.Child(userID.Key).Child("username").Value.ToString();
+
+                    Debug.Log(_userId + " Kullanıcısının username: " + username);
+                }
+            }
+        });
     }
 }
